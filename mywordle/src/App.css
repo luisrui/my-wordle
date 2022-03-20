@@ -1,0 +1,54 @@
+body {
+  color: black;
+}
+
+.App {
+  text-align: center;
+}
+
+.Container {
+  background-color: aquamarine;
+  background-size: 100%, 100%;
+
+}
+
+.gridRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0px;
+}
+
+.letter {
+  display: block;
+  text-align: center;
+  padding: 0px 15px 0px 15px;
+  margin: 10px;
+  background-color: white;
+  box-shadow: 1px 1px 1px black;
+  border-radius: 5px;
+  text-transform: uppercase;
+  min-width: 30px;
+  min-height: 50px;
+}
+
+.butRow {
+  display: flex;
+  justify-content: center;
+}
+
+.but {
+  display: block;
+  text-transform: uppercase;
+  color: black;
+  background-color: transparent;
+  font-size: 50px;
+  min-width: 60px;
+  min-height: 40px;
+  transition:all 200ms ease-out;
+}
+
+.but:hover{
+  color:aquamarine;
+  background-color: green;
+}
