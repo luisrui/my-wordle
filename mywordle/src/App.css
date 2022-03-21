@@ -45,10 +45,9 @@ body {
   font-size: 50px;
   min-width: 60px;
   min-height: 40px;
-  transition:all 200ms ease-out;
+  transition: all 200ms ease-out;
 }
 
-.but:hover{
-  color:aquamarine;
-  background-color: green;
+.but:hover {
+  color: white;
 }
