@@ -20,34 +20,102 @@ body {
 }
 
 .letter {
-  display: block;
-  text-align: center;
-  padding: 0px 15px 0px 15px;
-  margin: 10px;
-  background-color: white;
-  box-shadow: 1px 1px 1px black;
-  border-radius: 5px;
+  min-width: 40px;
+  min-height: 30px;
+  margin: 0;
+  border: 2px;
+  position: relative;
+  margin: 15px 15px 0 0;
+
+}
+
+.letter>.front,
+.letter>.back {
+  display: flex;
+  min-width: inherit;
+  min-height: inherit;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 1em;
   text-transform: uppercase;
-  min-width: 30px;
-  min-height: 50px;
+  font-weight: 800;
+  backface-visibility: hidden;
+  align-items: center;
+  justify-content: center;
+  transition: transform 2000ms;
+  border-radius: 5px;
+}
+
+.letter:nth-child(2)>.front,
+.letter:nth-child(2)>.back {
+  transition-delay: 0.5s;
+}
+
+.letter:nth-child(3)>.front,
+.letter:nth-child(3)>.back {
+  transition-delay: 1s;
+}
+
+.letter:nth-child(4)>.front,
+.letter:nth-child(4)>.back {
+  transition-delay: 1.5s;
+}
+
+.letter:nth-child(5)>.front,
+.letter:nth-child(5)>.back {
+  transition-delay: 2s;
+}
+
+.letter>.front {
+  background-color: white;
+}
+
+/* .letter>.back {
+  background-color: red;
+} */
+
+.letter.green>.back {
+  background-color: green;
+}
+
+.letter.yellow>.back {
+  background-color: yellow;
+}
+
+.letter.grey>.back {
+  background-color: grey;
+}
+
+.letter>.back {
+  transform: perspective(200px) rotateX(180deg);
+}
+
+.letter>.front {
+  transform: perspective(200px) rotateX(0deg);
+}
+
+.letter.a>.front {
+  transform: perspective(200px) rotateX(180deg);
+}
+
+.letter.a>.back {
+  transform: perspective(200px) rotateX(360deg);
 }
 
 .butRow {
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.but {
+.butRow>.but {
   display: block;
   text-transform: uppercase;
   color: black;
   background-color: transparent;
-  font-size: 50px;
-  min-width: 60px;
-  min-height: 40px;
+  font-size: 2em;
+  min-width: 30px;
+  min-height: 20px;
   transition: all 200ms ease-out;
-}
-
-.but:hover {
-  color: white;
 }

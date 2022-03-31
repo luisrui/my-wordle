@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import './App.css';
-import logo from './pictures/woman.jpg';
 import { answerList } from './utils/wordlist';
-import { Alert } from '@mui/material';
+import { CSSTransition } from 'react-transition-group';
 const GREEN = 2;
 const YELLOW = 1;
 const GREY = 0;
 const WHITE = 3;
 const rowLength = 5;
 let gameNum: number = Math.round(Math.random() * answerList.length);
+const FalseInitial = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+const delay = ["0s", "1s", "2s", "3s", "4s"]
 function App() {
   const row1 = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
   const row2 = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
@@ -33,14 +34,28 @@ function App() {
   const [position, setPosition] = useState(fake);
   const [rowNum, setRowNum] = useState(0);
   const [letterColor, setLetterColor] = useState(lettersColor);
+  const [rotate, setRotate] = useState(FalseInitial);
   const colorJudge = (judgeNum: number) => {
     if (judgeNum === GREEN) return 'green';
     if (judgeNum === YELLOW) return 'yellow';
-    if (judgeNum === GREY) return 'GREY';
-    return 'WHITE';
+    if (judgeNum === GREY) return 'grey';
+    return 'white';
   }
   const judge = () => {
     return cursor % 5 === 0 && cursor !== 0;
+  }
+  const rotateChange = async () => {
+    let index = 0;
+    let timer = setInterval(() => {
+      setRotate(FalseInitial);
+      rotate[rowNum * rowLength + index] = true;
+      setRotate(rotate);
+      console.log(rotate);
+      index += 1;
+      if (index === 5) {
+        clearInterval(timer);
+      }
+    }, 1000);
   }
   const compare = (answer: string, solution: string) => {
     answer = answer.toLowerCase();
@@ -99,7 +114,7 @@ function App() {
     }
     if (answer.length === 5 && key === 'Enter') {
       //单词输入无效的情况
-      if (compare(answer, answerList[gameNum]) === -1) {//很巧妙，在这里我想到了调用五个删除键来实现重新键入的功能
+      if (compare(answer, answerList[gameNum]) === -1) {
         alert('Invalid Word!');
         for (let i = 0; i < 5; i++) {
           handleKeyDown('Delete');
@@ -130,6 +145,11 @@ function App() {
             letterColor[element] = 'grey';
           }
         });
+        setRotate(FalseInitial);
+        for (let i = 0; i < 5; i++) {
+          rotate[rowNum * rowLength + i] = true;
+        }
+        setRotate(rotate);
         setPosition(position);
         setLetterColor(letterColor);
         setCursor(0);
@@ -140,17 +160,23 @@ function App() {
       if (compare(answer, answerList[gameNum]) === 1) {
         for (let i = rowNum * 5; i < rowNum * 5 + 5; i++) {
           position[i] = GREEN;
+
         }
+        setRotate(FalseInitial);
+        for (let i = 0; i < 5; i++) {
+          rotate[rowNum * rowLength + i] = true;
+        }
+        setRotate(rotate);
         setPosition(position);
         setCursor(0);
-        setTimeout("alert('Absolute Corrrrrrrrrrrrrrrect!')", 200);
-        setTimeout(() => { flush() }, 1000);
+        setTimeout("alert('Absolute Corrrrrrrrrrrrrrrect!')", 3000);
+        setTimeout(() => { window.location.reload() }, 4000);
       }
     }
   }
   return (
     <div
-      style={{ height: "100vh", backgroundImage: `url(${logo})` }}
+      style={{ height: "100vh", backgroundColor: "rgb(135,206,235)" }}
       tabIndex={0}
       onKeyDown={(event) => handleKeyDown(event.key)}
     >
@@ -162,7 +188,10 @@ function App() {
               temp.push(
                 <div className='gridRow'>
                   {content.slice(i * rowLength, (i + 1) * rowLength).map((value, index) => (
-                    <h1 className='letter' style={{ backgroundColor: `${colorJudge(position[i * rowLength + index])}` }} key={index}>{value}</h1>
+                    <div className={`letter ${rotate[i * rowLength + index] && "a"} ${colorJudge(position[i * rowLength + index])}`} key={index}>
+                      <div className="front">{value}</div>
+                      <div className="back">{value}</div>
+                    </div>
                   ))}
                 </div>
               )
@@ -171,25 +200,24 @@ function App() {
           })()
         }
       </div>
-      <div style={{ margin: "50px" }}></div>
       <div className='butRow'>
         {
           row1.map((value, index) => (
-            <button className='but' style={{ margin: "3px", backgroundColor: `${letterColor[value]}` }} onClick={(e) => handleKeyDown(value)}>{value}</button>
+            <button className='but' style={{ transitionDelay: '2.5s', margin: "3px", backgroundColor: `${letterColor[value]}` }} onClick={(e) => handleKeyDown(value)}>{value}</button>
           ))
         }
       </div>
       <div className='butRow'>
         {
           row2.map((value, index) => (
-            <button className='but' style={{ margin: "3px", backgroundColor: `${letterColor[value]}` }} onClick={(e) => handleKeyDown(value)}>{value}</button>
+            <button className='but' style={{ transitionDelay: '2.5s', margin: "3px", backgroundColor: `${letterColor[value]}` }} onClick={(e) => handleKeyDown(value)}>{value}</button>
           ))
         }
       </div>
       <div className='butRow'>
         {
           row3.map((value, index) => (
-            <button className='but' style={{ margin: "3px", backgroundColor: `${letterColor[value]}` }} onClick={(e) => handleKeyDown(value)}>{value}</button>
+            <button className='but' style={{ transitionDelay: '2.5s', margin: "3px", backgroundColor: `${letterColor[value]}` }} onClick={(e) => handleKeyDown(value)}>{value}</button>
           ))
         }
       </div>
